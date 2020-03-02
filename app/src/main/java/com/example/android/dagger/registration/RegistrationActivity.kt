@@ -32,6 +32,13 @@ class RegistrationActivity : AppCompatActivity() {
     lateinit var registrationViewModel: RegistrationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        /**
+         * When using Activities, inject Dagger in the Activity's onCreate method
+         * before calling super.onCreate to avoid issues with fragment restoration.
+         * In super.onCreate, an Activity during the restore phase will attach fragments
+         * that might want to access activity bindings.
+         */
+        (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
