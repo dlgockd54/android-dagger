@@ -38,8 +38,12 @@ class TermsAndConditionsFragment : Fragment() {
         super.onAttach(context)
 
         activity?.let {
-            (it.application as MyApplication).appComponent.inject(this)
+            (it as RegistrationActivity)
+                .registrationComponent
+                .inject(this)
         }
+
+        android.util.Log.d("TermsFragment", registrationViewModel.hashCode().toString())
     }
 
     override fun onCreateView(

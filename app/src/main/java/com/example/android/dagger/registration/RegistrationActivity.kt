@@ -31,14 +31,16 @@ class RegistrationActivity : AppCompatActivity() {
     @Inject
     lateinit var registrationViewModel: RegistrationViewModel
 
+    // Stores an instance of RegistrationComponent so that its Fragments can access it
+    lateinit var registrationComponent: RegistrationComponent
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        /**
-         * When using Activities, inject Dagger in the Activity's onCreate method
-         * before calling super.onCreate to avoid issues with fragment restoration.
-         * In super.onCreate, an Activity during the restore phase will attach fragments
-         * that might want to access activity bindings.
-         */
-        (application as MyApplication).appComponent.inject(this)
+        // Creates an instance of Registration component by grabbing the builder from the the app graph
+        registrationComponent =
+            (application as MyApplication).appComponent.registrationComponent().build()
+
+        // Inject this activity to the registration component
+        registrationComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
